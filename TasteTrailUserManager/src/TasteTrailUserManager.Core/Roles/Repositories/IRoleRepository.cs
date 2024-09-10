@@ -4,11 +4,12 @@ using TasteTrailUserManager.Core.Roles.Models;
 
 namespace TasteTrailUserManager.Core.Roles.Repositories;
 
-public interface IRoleRepository : IGetAsNoTrackingAsync<Role, string>, IGetByIdAsync<Role, string>
+public interface IRoleRepository : IGetAsNoTrackingAsync<Role, string>, IGetByIdAsync<Role, string>, 
+    ICreateAsync<Role, int>, IDeleteByIdAsync<string, int>
 {
-    Task<string> CreateRoleAsync(UserRoles role);
+    Task<Role?> GetByNameAsync(UserRoles role);
 
-    Task<string> DeleteRoleAsync(UserRoles role);
+    Task<int> SetupRolesAsync();
 
-    Task SetupRolesAsync();
+    Task<bool> RoleExistsAsync(UserRoles role);
 }

@@ -12,21 +12,21 @@ namespace TasteTrailUserManager.Core.Common.Admin.Services;
 
 public interface IAdminService
 {
-    Task<IdentityResult> AssignRoleToUserAsync(string userId, UserRoles role);
+    Task<string> AssignRoleToUserAsync(string userId, UserRoles role);
 
     Task<FilterResponseDto<UserResponseDto>> GetUsersFiltereBySearchdAsync(FilterParametersSearchDto filterParameters);
 
     Task<User> GetUserByUsernameAsync(string username);
 
-    Task<IEnumerable<string>> GetRolesByUsernameAsync(string username);
+    Task<string> GetRoleByUsernameAsync(string username);
 
     Task<User> GetUserByIdAsync(string userId);
 
     Task<int> GetCountFilteredAsync(FilterParametersDto filterParameters);
 
-    Task<IdentityResult> RemoveRoleFromUserAsync(string userId, UserRoles role);
+    Task<string> RemoveRoleFromUserAsync(string userId, UserRoles role);
 
-    Task<IdentityResult> ToggleBanUserAsync(string userId);
+    Task<string> ToggleBanUserAsync(string userId);
 
-    Task<IdentityResult> ToggleMuteUserAsync(string userId);
+    Task<string> ToggleMuteUserAsync(string userId);
 }

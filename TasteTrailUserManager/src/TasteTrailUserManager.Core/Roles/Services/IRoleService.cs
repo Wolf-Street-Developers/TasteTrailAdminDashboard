@@ -10,9 +10,11 @@ public interface IRoleService
 
     Task<Role?> GetRoleByIdAsync(string id);
 
-    Task<Role> CreateRoleAsync(UserRoles role);
+    Task CreateRoleAsync(UserRoles role);
 
-    Task<string> DeleteRoleAsync(UserRoles role);
+    Task DeleteRoleAsync(UserRoles role);
 
     Task SetupRolesAsync();
+
+    Task<bool> RoleExistsAsync(UserRoles role);
 }

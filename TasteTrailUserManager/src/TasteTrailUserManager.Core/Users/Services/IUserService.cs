@@ -1,28 +1,35 @@
 
 
+using TasteTrailData.Core.Roles.Enums;
 using TasteTrailUserManager.Core.Users.Models;
 
 namespace TasteTrailUserManager.Core.Users.Services;
 
 public interface IUserService
 {
-    Task<string> CreateUserAsync(User user);
+    Task AddToRoleAsync(User user, string roleId);
 
-    Task<IList<string>> GetRolesByUsernameAsync(string username);
+    Task<IQueryable<User>> GetAllUsersQueryable();
 
-    Task<IList<string>> GetRolesByEmailAsync(string email);
+    Task RemoveFromRoleAsync(User user, string roleId);
+
+    Task CreateUserAsync(User user);
+
+    Task<string> GetRoleByUsernameAsync(string username);
+
+    Task<string> GetRoleByEmailAsync(string email);
 
     Task<User?> GetUserByIdAsync(string userId);
 
-    Task<User> GetUserByUsernameAsync(string username);
+    Task<User?> GetUserByUsernameAsync(string username);
 
-    Task<User> GetUserByEmailAsync(string email);
+    Task<User?> GetUserByEmailAsync(string email);
 
-    Task<string> UpdateUserAsync(User user, string senderId);
+    Task UpdateUserAsync(User user);
 
-    Task<string> DeleteUserAsync(string userId);
+    Task DeleteUserAsync(string userId);
 
-    Task<bool> HasRegisteredUsers();
+    Task<bool> HasRegisteredUsers(User user);
 
     Task PatchAvatarUrlPathAsync(string userId, string avatarUrl); 
 }
