@@ -38,24 +38,29 @@ public class RoleService : IRoleService
         }
     }
 
-    public async Task<Role?> GetRoleAsNoTrackingAsync(string id)
+    public async Task<Role> GetByNameAsync(UserRoles userRole)
     {
-        if(string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
-        {
-            throw new ArgumentException("id is empty");
-        }
-
-        return await _repository.GetAsNoTrackingAsync(id);
+        return await _repository.GetByNameAsync(userRole) ?? throw new ArgumentException($"role: {userRole} doesn't exists");;
     }
 
-    public async Task<Role?> GetRoleByIdAsync(string id)
+    public async Task<Role> GetRoleAsNoTrackingAsync(string id)
     {
         if(string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
         {
             throw new ArgumentException("id is empty");
         }
 
-        return await _repository.GetByIdAsync(id);
+        return await _repository.GetAsNoTrackingAsync(id) ?? throw new ArgumentException($"role with id: {id} doesn't exists");;
+    }
+
+    public async Task<Role> GetRoleByIdAsync(string id)
+    {
+        if(string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
+        {
+            throw new ArgumentException("id is empty");
+        }
+
+        return await _repository.GetByIdAsync(id) ?? throw new ArgumentException($"role with id: {id} doesn't exists");
     }
 
     public async Task<bool> RoleExistsAsync(UserRoles role)

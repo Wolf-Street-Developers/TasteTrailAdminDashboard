@@ -1,12 +1,12 @@
 #pragma warning disable CS1998
 
-using Library.Common.Data;
+namespace TasteTrailUserManager.Infrastructure.Roles.Repositories;
+
 using Microsoft.EntityFrameworkCore;
 using TasteTrailData.Core.Roles.Enums;
 using TasteTrailUserManager.Core.Roles.Models;
 using TasteTrailUserManager.Core.Roles.Repositories;
-
-namespace TasteTrailUserManager.Infrastructure.Roles.Repositories;
+using TasteTrailUserManager.Infrastructure.Common.Data;
 
 public class RoleRepository : IRoleRepository
 {

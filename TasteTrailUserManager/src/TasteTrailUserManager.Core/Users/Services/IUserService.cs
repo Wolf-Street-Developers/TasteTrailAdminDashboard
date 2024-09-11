@@ -7,23 +7,19 @@ namespace TasteTrailUserManager.Core.Users.Services;
 
 public interface IUserService
 {
-    Task AddToRoleAsync(User user, string roleId);
+    Task AssignRoleAsync(string userId, string roleId);
 
     Task<IQueryable<User>> GetAllUsersQueryable();
 
-    Task RemoveFromRoleAsync(User user, string roleId);
+    Task RemoveFromRoleAsync(string userId, string roleId, string defaultRoleId);
 
     Task CreateUserAsync(User user);
+    
+    Task<User> GetUserByIdAsync(string userId);
 
-    Task<string> GetRoleByUsernameAsync(string username);
+    Task<User> GetUserByUsernameAsync(string username);
 
-    Task<string> GetRoleByEmailAsync(string email);
-
-    Task<User?> GetUserByIdAsync(string userId);
-
-    Task<User?> GetUserByUsernameAsync(string username);
-
-    Task<User?> GetUserByEmailAsync(string email);
+    Task<User> GetUserByEmailAsync(string email);
 
     Task UpdateUserAsync(User user);
 

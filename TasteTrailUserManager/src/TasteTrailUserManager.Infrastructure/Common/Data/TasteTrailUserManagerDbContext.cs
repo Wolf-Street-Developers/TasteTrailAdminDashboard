@@ -4,7 +4,7 @@ using TasteTrailUserManager.Core.Roles.Models;
 using TasteTrailUserManager.Core.Users.Configurations;
 using TasteTrailUserManager.Core.Users.Models;
 
-namespace Library.Common.Data;
+namespace TasteTrailUserManager.Infrastructure.Common.Data;
 
 public class TasteTrailUserManagerDbContext : DbContext
 {
