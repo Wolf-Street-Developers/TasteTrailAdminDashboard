@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /source
 
 COPY ./TasteTrailUserManager.Api/*.csproj ./TasteTrailUserManager.Api/
-COPY ./TasteTrailIdentity.Infrastructure/*.csproj ./TasteTrailUserManager.Infrastructure/
+COPY ./TasteTrailUserManager.Infrastructure/*.csproj ./TasteTrailUserManager.Infrastructure/
 COPY ./TasteTrailUserManager.Core/*.csproj ./TasteTrailUserManager.Core/
 
 COPY . .
