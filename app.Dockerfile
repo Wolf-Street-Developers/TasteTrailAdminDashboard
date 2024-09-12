@@ -7,7 +7,7 @@ COPY ./TasteTrailAdminDashboard/src/TasteTrailAdminDashboard.Core/*.csproj .Tast
 
 COPY . .
 
-RUN dotnet publish TasteTrailAdminDashboard/src/TasteTrailAdminDashboard.Api/*.csproj -c Release -o /app/publish
+RUN dotnet publish TasteTrailAdminDashboard/src/TasteTrailAdminDashboard.Api/TasteTrailAdminDashboard.Api.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
