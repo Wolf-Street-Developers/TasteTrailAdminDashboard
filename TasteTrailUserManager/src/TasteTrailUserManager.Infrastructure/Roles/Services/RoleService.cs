@@ -70,9 +70,6 @@ public class RoleService : IRoleService
 
     public async Task SetupRolesAsync()
     {
-        if(await _repository.SetupRolesAsync() == 0)
-        {
-            throw new Exception("couldn't set roles");
-        }
+        await _repository.SetupRolesAsync();
     }
 }

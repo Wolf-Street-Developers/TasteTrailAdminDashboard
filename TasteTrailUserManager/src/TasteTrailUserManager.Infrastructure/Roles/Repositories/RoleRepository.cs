@@ -53,9 +53,30 @@ public class RoleRepository : IRoleRepository
 
     public async Task<int> SetupRolesAsync()
     {
-        List<Role> roles = [new Role(){ Name = "Admin"}, new Role(){ Name = "User"}, new Role(){ Name = "Owner"} ];
+        List<Role> roles = [
+            new Role(){ 
+                Id = $"{Guid.NewGuid()}",
+                Name = $"{UserRoles.Admin}"
+                }, 
+            new Role(){ 
+                Id = $"{Guid.NewGuid()}",
+                Name = $"{UserRoles.User}"
+                }, 
+            new Role(){ 
+                Id = $"{Guid.NewGuid()}",
+                Name = $"{UserRoles.Owner}"
+            } ];
 
-        await _context.Roles.AddRangeAsync(roles);
+        foreach(var role in roles)
+        {
+            var isExists = _context.Roles.Where(r => r.Name == role.Name).FirstOrDefault() is not null;
+
+            if(!isExists)
+            {
+                await _context.Roles.AddAsync(role);
+            }
+        }
+
         return await _context.SaveChangesAsync();
     }
 }

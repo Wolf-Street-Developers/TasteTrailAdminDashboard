@@ -1,6 +1,4 @@
 
-
-using TasteTrailData.Core.Roles.Enums;
 using TasteTrailUserManager.Core.Users.Models;
 
 namespace TasteTrailUserManager.Core.Users.Services;
