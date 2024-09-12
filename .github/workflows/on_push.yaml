@@ -1,4 +1,4 @@
-name: Restore, Build, Test and Deploy dotnet TasteTrailUserManager app
+name: Restore, Build, Test and Deploy dotnet TasteTrailAdminDashboard app
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
           password: ${{secrets.DOCKERHUB_TOKEN}}
 
       - name: Build Image
-        run: docker build -f TasteTrailUserManager/src/app.Dockerfile -t ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.IMAGE_NAME}}:latest .    
+        run: docker build -f ./app.Dockerfile -t ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.IMAGE_NAME}}:latest .    
 
       - name: Push Image
         run: docker push ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.IMAGE_NAME}}:latest
@@ -56,7 +56,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /home/azureuser/TasteTrailUserManager
+            cd /home/azureuser/TasteTrailAdminDashboard
             sudo docker compose pull
             sudo docker compose down
             sudo docker compose up -d

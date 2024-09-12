@@ -1,6 +1,0 @@
-@TasteTrailUserManager.Api_HostAddress = http://localhost:5153
-
-GET {{TasteTrailUserManager.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

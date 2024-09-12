@@ -1,0 +1,6 @@
+@TasteTrailAdminDashboard.Api_HostAddress = http://localhost:5153
+
+GET {{TasteTrailAdminDashboard.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
