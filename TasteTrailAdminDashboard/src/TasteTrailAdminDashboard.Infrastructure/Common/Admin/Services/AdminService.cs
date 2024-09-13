@@ -173,7 +173,7 @@ public class AdminService : IAdminService
         user.IsBanned = !user.IsBanned;
         await _userService.UpdateUserAsync(user);
 
-        await _messageBrokerService.PushAsync("user_togglebun_identity", new {
+        await _messageBrokerService.PushAsync("user_toggleban_identity", new {
             Id = userId,
             IsBanned = user.IsBanned,
         });

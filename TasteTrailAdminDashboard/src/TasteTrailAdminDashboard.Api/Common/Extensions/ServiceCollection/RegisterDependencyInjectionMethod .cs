@@ -1,9 +1,12 @@
 
+using TasteTrailAdminDashboard.Core.Common.Admin.Services;
 using TasteTrailAdminDashboard.Core.Common.Services;
 using TasteTrailAdminDashboard.Core.Roles.Repositories;
 using TasteTrailAdminDashboard.Core.Roles.Services;
 using TasteTrailAdminDashboard.Core.Users.Repositories;
 using TasteTrailAdminDashboard.Core.Users.Services;
+using TasteTrailAdminDashboard.Infrastructure.Common.Admin.Services;
+using TasteTrailAdminDashboard.Infrastructure.Common.BackgroundServices;
 using TasteTrailAdminDashboard.Infrastructure.Common.Services;
 using TasteTrailAdminDashboard.Infrastructure.Roles.Repositories;
 using TasteTrailAdminDashboard.Infrastructure.Roles.Services;
@@ -22,7 +25,12 @@ public static class RegisterDependencyInjectionMethod
         serviceCollection.AddTransient<IUserRepository, UserRepository>();
         serviceCollection.AddTransient<IRoleRepository, RoleRepository>();
 
+        serviceCollection.AddTransient<IAdminService, AdminService>();
+
         serviceCollection.AddTransient<IMessageBrokerService, RabbitMqService>();
+
+        serviceCollection.AddHostedService<UserRabbitMqService>();
+        //serviceCollection.AddHostedService<RoleRabbitMqService>();
 
     } 
 }

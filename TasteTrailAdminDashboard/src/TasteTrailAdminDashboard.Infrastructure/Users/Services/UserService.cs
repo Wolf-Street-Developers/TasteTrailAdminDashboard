@@ -154,11 +154,17 @@ public class UserService : IUserService
             throw new ArgumentException("user or userId are empty");
         }
 
-        var changedRows = await _userRepository.PutAsync(user);
+        var foundUser = await _userRepository.GetByIdAsync(user.Id) ?? throw new ArgumentException($"there is no user with id: {user.Id}");
+        foundUser.Email = user.Email is null ? foundUser.Email : user.Email; 
+        foundUser.UserName = user.UserName is null ? foundUser.UserName : user.UserName;
+
+        System.Console.WriteLine($"\n\n\n\n\n\n\n\n\n  {foundUser.Id}   {foundUser.RoleId}   {foundUser.Email}    {foundUser.UserName}   \n\n\n\n\n\n\n\n\n\n");
+
+        var changedRows = await _userRepository.PutAsync(foundUser);
 
         if(changedRows == 0)
         {
-            throw new Exception($"user has not been assigned to role {UserRoles.User}");
+            throw new Exception($"user has not been changed");
         }
     }
 }

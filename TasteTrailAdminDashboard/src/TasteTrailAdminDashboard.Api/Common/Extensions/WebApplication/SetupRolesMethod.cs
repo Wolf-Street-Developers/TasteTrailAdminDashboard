@@ -1,7 +1,7 @@
 namespace TasteTrailAdminDashboard.Api.Common.Extensions.WebApplication;
 
-using Microsoft.AspNetCore.Builder;
 using TasteTrailAdminDashboard.Core.Roles.Services;
+using Microsoft.AspNetCore.Builder;
 
 public static class SetupRolesMethod
 {
