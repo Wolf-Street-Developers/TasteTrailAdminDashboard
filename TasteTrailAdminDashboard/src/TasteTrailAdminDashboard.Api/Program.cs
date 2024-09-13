@@ -5,6 +5,7 @@ using TasteTrailAdminDashboard.Api.Common.Extensions.WebApplicationBuilder;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.SetupVariables();
+builder.InitMessageBroker();
 
 builder.Services.InitDbContext(builder.Configuration);
 builder.Services.InitAuth(builder.Configuration);

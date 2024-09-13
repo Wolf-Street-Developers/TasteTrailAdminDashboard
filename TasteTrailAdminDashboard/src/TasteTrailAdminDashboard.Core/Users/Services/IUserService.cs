@@ -24,6 +24,4 @@ public interface IUserService
     Task DeleteUserAsync(string userId);
 
     Task<bool> HasRegisteredUsers(User user);
-
-    Task PatchAvatarUrlPathAsync(string userId, string avatarUrl); 
 }

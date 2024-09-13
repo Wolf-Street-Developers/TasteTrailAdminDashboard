@@ -116,28 +116,6 @@ public class UserService : IUserService
         return await _userRepository.GetByIdAsync(user.Id) is not null;
     }
 
-    public async Task PatchAvatarUrlPathAsync(string userId, string avatarUrl)
-    {
-        if(string.IsNullOrEmpty(userId) || string.IsNullOrWhiteSpace(userId))
-        {
-            throw new ArgumentException("userId is empty");
-        }
-
-        if(string.IsNullOrEmpty(avatarUrl) || string.IsNullOrWhiteSpace(avatarUrl))
-        {
-            throw new ArgumentException("avatarUrl is empty");
-        }
-
-        var user = await _userRepository.GetByIdAsync(userId) ?? throw new ArgumentException($"cannot find user with id: {userId}");
-        user.AvatarPath = avatarUrl;
-
-        var changedRows = await _userRepository.PutAsync(user);
-
-        if(changedRows == 0)
-        {
-            throw new Exception("avatar has not been patched");
-        }
-    }
 
     public async Task RemoveFromRoleAsync(string userId, string roleId, string defaultRoleId)
     {
