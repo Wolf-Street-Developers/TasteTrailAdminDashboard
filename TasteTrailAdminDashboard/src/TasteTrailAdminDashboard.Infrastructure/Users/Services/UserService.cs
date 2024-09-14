@@ -29,6 +29,10 @@ public class UserService : IUserService
 
         var user = await _userRepository.GetByIdAsync(userId) ?? throw new ArgumentException($"cannot find user with id: {userId}");
 
+        if(user.RoleId == roleId)
+        {
+            throw new ArgumentException("user already in role!");
+        }
         user.RoleId = roleId;
 
         var changedRows = await _userRepository.PutAsync(user);
@@ -116,28 +120,6 @@ public class UserService : IUserService
         return await _userRepository.GetByIdAsync(user.Id) is not null;
     }
 
-    public async Task PatchAvatarUrlPathAsync(string userId, string avatarUrl)
-    {
-        if(string.IsNullOrEmpty(userId) || string.IsNullOrWhiteSpace(userId))
-        {
-            throw new ArgumentException("userId is empty");
-        }
-
-        if(string.IsNullOrEmpty(avatarUrl) || string.IsNullOrWhiteSpace(avatarUrl))
-        {
-            throw new ArgumentException("avatarUrl is empty");
-        }
-
-        var user = await _userRepository.GetByIdAsync(userId) ?? throw new ArgumentException($"cannot find user with id: {userId}");
-        user.AvatarPath = avatarUrl;
-
-        var changedRows = await _userRepository.PutAsync(user);
-
-        if(changedRows == 0)
-        {
-            throw new Exception("avatar has not been patched");
-        }
-    }
 
     public async Task RemoveFromRoleAsync(string userId, string roleId, string defaultRoleId)
     {
@@ -176,11 +158,17 @@ public class UserService : IUserService
             throw new ArgumentException("user or userId are empty");
         }
 
-        var changedRows = await _userRepository.PutAsync(user);
+        var foundUser = await _userRepository.GetByIdAsync(user.Id) ?? throw new ArgumentException($"there is no user with id: {user.Id}");
+        foundUser.Email = user.Email is null ? foundUser.Email : user.Email; 
+        foundUser.UserName = user.UserName is null ? foundUser.UserName : user.UserName;
+
+        System.Console.WriteLine($"\n\n\n\n\n\n\n\n\n  {foundUser.Id}   {foundUser.RoleId}   {foundUser.Email}    {foundUser.UserName}   \n\n\n\n\n\n\n\n\n\n");
+
+        var changedRows = await _userRepository.PutAsync(foundUser);
 
         if(changedRows == 0)
         {
-            throw new Exception($"user has not been assigned to role {UserRoles.User}");
+            throw new Exception($"user has not been changed");
         }
     }
 }

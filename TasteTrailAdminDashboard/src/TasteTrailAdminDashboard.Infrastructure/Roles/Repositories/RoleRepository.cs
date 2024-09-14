@@ -46,37 +46,52 @@ public class RoleRepository : IRoleRepository
         return _context.Roles.Where(role => role.Name == userRole.ToString()).FirstOrDefault();
     }
 
+    public async Task<int> PutAsync(Role entity)
+    {
+        var toChange = await _context.Roles.Where(r => r.Name == entity.Name).FirstOrDefaultAsync() 
+            ?? throw new ArgumentException($"role {entity.Name} doen't exists");
+        toChange.Id = entity.Id;
+
+        _context.Roles.Remove(toChange);
+        await _context.Roles.AddAsync(entity);
+
+        return await _context.SaveChangesAsync();
+    }
+
     public async Task<bool> RoleExistsAsync(UserRoles userRole)
     {
+        System.Console.WriteLine(_context.Roles.Count());
         return _context.Roles.Where(role => role.Name == userRole.ToString()).FirstOrDefault() is not null; 
     }
 
     public async Task<int> SetupRolesAsync()
     {
-        List<Role> roles = [
-            new Role(){ 
-                Id = $"{Guid.NewGuid()}",
-                Name = $"{UserRoles.Admin}"
-                }, 
-            new Role(){ 
-                Id = $"{Guid.NewGuid()}",
-                Name = $"{UserRoles.User}"
-                }, 
-            new Role(){ 
-                Id = $"{Guid.NewGuid()}",
-                Name = $"{UserRoles.Owner}"
-            } ];
+        
 
-        foreach(var role in roles)
+        List<UserRoles> roleNames = [UserRoles.Admin, UserRoles.User, UserRoles.Owner];
+        List<string> ids = ["57082502-2ccf-4610-b865-fdd780b8bf1d", "6424977e-131b-4f9f-aa3f-9626dd293021", "c0d1b7c6-a250-4a02-a0c8-a8896de8140e"];
+        
+        
+
+        for (int i = 0; i < roleNames.Count; i++)
         {
-            var isExists = _context.Roles.Where(r => r.Name == role.Name).FirstOrDefault() is not null;
+            var roleExists = await this.RoleExistsAsync(roleNames[i]);
 
-            if(!isExists)
+            if (!roleExists)
             {
-                await _context.Roles.AddAsync(role);
+                var role = new Role()
+                {
+                    Id = ids[i],
+                    Name = roleNames[i].ToString()
+                };
+                var result = await this.CreateAsync(role);
+                
+                if (result == 0)
+                    throw new Exception("cannot create roles!!");
+        
             }
         }
 
-        return await _context.SaveChangesAsync();
+        return 3;
     }
 }

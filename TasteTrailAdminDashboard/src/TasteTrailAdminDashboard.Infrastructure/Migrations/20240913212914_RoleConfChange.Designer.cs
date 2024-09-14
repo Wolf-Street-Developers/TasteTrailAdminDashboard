@@ -11,8 +11,8 @@ using TasteTrailAdminDashboard.Infrastructure.Common.Data;
 namespace TasteTrailAdminDashboard.Infrastructure.Migrations
 {
     [DbContext(typeof(TasteTrailAdminDashboardDbContext))]
-    [Migration("20240912114032_Init")]
-    partial class Init
+    [Migration("20240913212914_RoleConfChange")]
+    partial class RoleConfChange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,9 +44,6 @@ namespace TasteTrailAdminDashboard.Infrastructure.Migrations
             modelBuilder.Entity("TasteTrailAdminDashboard.Core.Users.Models.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AvatarPath")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")

@@ -31,8 +31,7 @@ namespace TasteTrailAdminDashboard.Infrastructure.Migrations
                     UserName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     IsBanned = table.Column<bool>(type: "boolean", nullable: false),
-                    IsMuted = table.Column<bool>(type: "boolean", nullable: false),
-                    AvatarPath = table.Column<string>(type: "text", nullable: true)
+                    IsMuted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

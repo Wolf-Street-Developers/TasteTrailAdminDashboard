@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+
 using TasteTrailData.Core.Filters.Specifications;
 using TasteTrailData.Core.Roles.Enums;
 using TasteTrailData.Infrastructure.Filters.Dtos;
@@ -14,6 +10,7 @@ using TasteTrailAdminDashboard.Core.Users.Services;
 using TasteTrailAdminDashboard.Infrastructure.Common.Admin.Factories;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using TasteTrailAdminDashboard.Core.Common.Services;
 
 namespace TasteTrailAdminDashboard.Infrastructure.Common.Admin.Services;
 
@@ -22,12 +19,14 @@ public class AdminService : IAdminService
 {
     private readonly IUserService _userService;
     private readonly IRoleService _roleService;
+    private readonly IMessageBrokerService _messageBrokerService;
 
-
-    public AdminService(IUserService userService, IRoleService roleService)
+    public AdminService(IUserService userService, IRoleService roleService,
+        IMessageBrokerService messageBrokerService)
     {
         _userService = userService;
         _roleService = roleService;
+        _messageBrokerService = messageBrokerService;
     }
 
     public async Task AssignRoleToUserAsync(string userId, UserRoles role)
@@ -35,12 +34,17 @@ public class AdminService : IAdminService
         var foundRole = await _roleService.GetByNameAsync(role);
 
         var isExists = await _roleService.RoleExistsAsync(role);
-        if(isExists)
+        if(!isExists)
         {
             throw new Exception($"role: {role} doesn't exists");
         }
 
         await _userService.AssignRoleAsync(userId, foundRole.Id);
+
+         await _messageBrokerService.PushAsync("role_update_identity", new {
+                Id = userId,
+                RoleId = foundRole.Id,
+            });
     }
 
     public async Task<int> GetCountFilteredAsync(FilterParametersDto filterParameters)
@@ -152,6 +156,11 @@ public class AdminService : IAdminService
         var userRole = await _roleService.GetByNameAsync(UserRoles.User);
 
         await _userService.RemoveFromRoleAsync(userId: userId, roleId: roleToDelete.Id, defaultRoleId: userRole.Id);
+
+        await _messageBrokerService.PushAsync("role_update_identity", new {
+            Id = userId,
+            RoleId = userRole.Id,
+        });
     }
 
     public async Task ToggleBanUserAsync(string userId)
@@ -163,6 +172,11 @@ public class AdminService : IAdminService
 
         user.IsBanned = !user.IsBanned;
         await _userService.UpdateUserAsync(user);
+
+        await _messageBrokerService.PushAsync("user_toggleban_identity", new {
+            Id = userId,
+            IsBanned = user.IsBanned,
+        });
     }
 
     public async Task ToggleMuteUserAsync(string userId)
@@ -171,5 +185,10 @@ public class AdminService : IAdminService
 
         user.IsMuted = !user.IsMuted;
         await _userService.UpdateUserAsync(user);
+
+        await _messageBrokerService.PushAsync("user_togglemute_identity", new {
+            Id = userId,
+            IsMuted = user.IsMuted,
+        });
     }
 }

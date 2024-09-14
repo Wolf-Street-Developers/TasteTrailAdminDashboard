@@ -18,6 +18,4 @@ public class User : IBanable, IMuteable
 
     [DefaultValue(false)]
     public bool IsMuted { get; set; }
-
-    public string? AvatarPath { get; set; }
 }
