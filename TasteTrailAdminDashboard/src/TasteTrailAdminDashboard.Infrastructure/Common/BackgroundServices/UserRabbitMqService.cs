@@ -41,14 +41,12 @@ public class UserRabbitMqService : BaseRabbitMqService, IHostedService
 
                 var updateDto = JsonSerializer.Deserialize<UpdateUserSenderDto>(message)!;
 
-                var updatedUser = new User()
-                {
-                    Id = updateDto.Id,
-                    UserName = updateDto.UserName!,
-                    Email = updateDto.Email!
-                };
+                var userToUpdate = await userRepository.GetByIdAsync(updateDto.Id) ?? throw new ArgumentException($"there is no user with id: {updateDto.Id}");
+
+                userToUpdate.Email = updateDto.Email is null ? userToUpdate.Email : updateDto.Email;
+                userToUpdate.UserName = updateDto.UserName is null ? userToUpdate.UserName : updateDto.UserName;
                 System.Console.WriteLine($"\n\n\n\n\n\n{updateDto.Id}   {updateDto.UserName}   {updateDto.Email}\n\n\n\n\n\n\n\n");
-                await userRepository.PutAsync(updatedUser);
+                await userRepository.PutAsync(userToUpdate);
             }
         });
 

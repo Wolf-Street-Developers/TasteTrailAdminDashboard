@@ -29,6 +29,10 @@ public class UserService : IUserService
 
         var user = await _userRepository.GetByIdAsync(userId) ?? throw new ArgumentException($"cannot find user with id: {userId}");
 
+        if(user.RoleId == roleId)
+        {
+            throw new ArgumentException("user already in role!");
+        }
         user.RoleId = roleId;
 
         var changedRows = await _userRepository.PutAsync(user);

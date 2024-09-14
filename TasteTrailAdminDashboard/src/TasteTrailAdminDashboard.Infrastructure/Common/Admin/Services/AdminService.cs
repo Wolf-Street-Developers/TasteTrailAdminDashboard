@@ -34,7 +34,7 @@ public class AdminService : IAdminService
         var foundRole = await _roleService.GetByNameAsync(role);
 
         var isExists = await _roleService.RoleExistsAsync(role);
-        if(isExists)
+        if(!isExists)
         {
             throw new Exception($"role: {role} doesn't exists");
         }
