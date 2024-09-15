@@ -4,17 +4,18 @@ using TasteTrailData.Api.Common.Extensions.Controllers;
 using TasteTrailData.Core.Roles.Enums;
 using TasteTrailData.Infrastructure.Filters.Dtos;
 using TasteTrailAdminDashboard.Core.Common.Admin.Services;
+using TasteTrailAdminDashboard.Core.Users.Dtos;
 
 namespace TasteTrailAdminDashboard.Api.Common.Controllers;
 
 
 [ApiController]
 [Route("/api/[controller]")]
-public class AdminPanelController : ControllerBase
+public class AdminDashboardController : ControllerBase
 {
     private readonly IAdminService _adminService;
 
-    public AdminPanelController(IAdminService adminService)
+    public AdminDashboardController(IAdminService adminService)
     {
         _adminService = adminService;
     }
@@ -63,11 +64,11 @@ public class AdminPanelController : ControllerBase
 
     [HttpPost("[action]")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> AssignRoleAsync([FromQuery] string userId, [FromQuery] UserRoles role)
+    public async Task<IActionResult> AssignRoleAsync([FromBody]UpdateUserRoleDto updateDto)
     {
         try
         {
-            await _adminService.AssignRoleToUserAsync(userId, role);
+            await _adminService.AssignRoleToUserAsync(updateDto.UserId, updateDto.Role);
             return Ok();
         }
         catch(ArgumentException exception)
@@ -82,11 +83,11 @@ public class AdminPanelController : ControllerBase
 
     [HttpPost("[action]")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> RemoveRoleAsync([FromQuery] string userId, [FromQuery] UserRoles role)
+    public async Task<IActionResult> RemoveRoleAsync([FromBody] UpdateUserRoleDto updateDto)
     {
         try
         {
-            await _adminService.RemoveRoleFromUserAsync(userId: userId, role);
+            await _adminService.RemoveRoleFromUserAsync(updateDto.UserId, updateDto.Role);
             return Ok();
         }
         catch(ArgumentException exception)
@@ -99,9 +100,9 @@ public class AdminPanelController : ControllerBase
         }
     }
 
-    [HttpPost("[action]/{userId}")]
+    [HttpPost("[action]")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ToggleMuteAsync(string userId)
+    public async Task<IActionResult> ToggleMuteAsync([FromQuery]string userId)
     {
         try
         {
@@ -118,9 +119,9 @@ public class AdminPanelController : ControllerBase
         }
     }
 
-    [HttpPost("[action]/{userId}")]
+    [HttpPost("[action]")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ToggleBanAsync(string userId)
+    public async Task<IActionResult> ToggleBanAsync([FromQuery]string userId)
     {
         try
         {
@@ -137,9 +138,9 @@ public class AdminPanelController : ControllerBase
         }
     }
 
-    [HttpGet("UserInfo/{userId}")]
+    [HttpGet("UserInfo")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> GetUserInfoAsync(string userId)
+    public async Task<IActionResult> GetUserInfoAsync([FromQuery]string userId)
     {
         try
         {
