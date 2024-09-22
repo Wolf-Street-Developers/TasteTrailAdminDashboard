@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TasteTrailData.Api.Common.Extensions.Controllers;
-using TasteTrailData.Core.Roles.Enums;
 using TasteTrailData.Infrastructure.Filters.Dtos;
 using TasteTrailAdminDashboard.Core.Common.Admin.Services;
 using TasteTrailAdminDashboard.Core.Users.Dtos;
