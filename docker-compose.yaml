@@ -22,7 +22,7 @@ services:
       RABBIT_MQ_PASSWORD: "${RABBIT_MQ_PASSWORD}"
 
     ports:
-      - 5000:80
+      - 7000:80
     depends_on:
       - postgres
     networks:
@@ -40,7 +40,7 @@ services:
     expose:
       - ${POSTGRES_PORT}
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"  
+      - 7500:${POSTGRES_PORT}"  
     networks:
       - admindashboard-network
     volumes:
